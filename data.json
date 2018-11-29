@@ -2,7 +2,7 @@
   {
     "title": "Problema stradale",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-07-26T05:20:01 -02:00",
     "latitude": 44.404882,
     "longitude": 8.962749
@@ -10,7 +10,7 @@
   {
     "title": "Problema stradale",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-01T04:27:56 -02:00",
     "latitude": 44.408498,
     "longitude": 8.90312
@@ -18,7 +18,7 @@
   {
     "title": "Divano abbandonato",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-28T06:35:33 -01:00",
     "latitude": 44.400879,
     "longitude": 8.972585
@@ -26,7 +26,7 @@
   {
     "title": "Buca",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-05-09T12:27:49 -02:00",
     "latitude": 44.404915,
     "longitude": 8.947251
@@ -34,7 +34,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-11-05T07:08:03 -01:00",
     "latitude": 44.420646,
     "longitude": 8.926383
@@ -42,7 +42,7 @@
   {
     "title": "Problema stradale",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-12T10:27:19 -01:00",
     "latitude": 44.397046,
     "longitude": 8.990999
@@ -50,7 +50,7 @@
   {
     "title": "Spazzatura",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-13T08:09:49 -01:00",
     "latitude": 44.420876,
     "longitude": 8.912556
@@ -58,7 +58,7 @@
   {
     "title": "Buca",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-10-06T03:20:19 -02:00",
     "latitude": 44.395299,
     "longitude": 8.947268
@@ -66,7 +66,7 @@
   {
     "title": "Divano abbandonato",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-06-23T04:17:04 -02:00",
     "latitude": 44.40698,
     "longitude": 8.94495
@@ -74,7 +74,7 @@
   {
     "title": "Spazzatura",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-24T10:46:31 -02:00",
     "latitude": 44.397992,
     "longitude": 8.954725
@@ -82,7 +82,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-22T06:40:19 -02:00",
     "latitude": 44.395103,
     "longitude": 8.948541
@@ -90,7 +90,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-01-16T04:32:09 -01:00",
     "latitude": 44.409995,
     "longitude": 8.995642
@@ -98,7 +98,7 @@
   {
     "title": "Problema stradale",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-06-23T06:53:33 -02:00",
     "latitude": 44.400908,
     "longitude": 8.900141
@@ -106,7 +106,7 @@
   {
     "title": "Buca",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-07-27T06:16:41 -02:00",
     "latitude": 44.404497,
     "longitude": 8.975149
@@ -114,7 +114,7 @@
   {
     "title": "Divano abbandonato",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-04-05T01:56:35 -02:00",
     "latitude": 44.410525,
     "longitude": 8.928432
@@ -122,7 +122,7 @@
   {
     "title": "Spazzatura",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-09T09:26:14 -02:00",
     "latitude": 44.4302,
     "longitude": 8.967652
@@ -130,7 +130,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-25T10:29:33 -02:00",
     "latitude": 44.406998,
     "longitude": 8.98163
@@ -138,7 +138,7 @@
   {
     "title": "Divano abbandonato",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-06-02T08:36:22 -02:00",
     "latitude": 44.410679,
     "longitude": 8.9185
@@ -146,7 +146,7 @@
   {
     "title": "Spazzatura",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-09T11:36:47 -01:00",
     "latitude": 44.399773,
     "longitude": 8.961319
@@ -154,7 +154,7 @@
   {
     "title": "Divano abbandonato",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-04-30T11:53:47 -02:00",
     "latitude": 44.423653,
     "longitude": 8.941422
@@ -162,7 +162,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-07-25T09:45:53 -02:00",
     "latitude": 44.418352,
     "longitude": 8.976553
@@ -170,7 +170,7 @@
   {
     "title": "Buca",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-10-06T02:15:14 -02:00",
     "latitude": 44.399833,
     "longitude": 8.996488
@@ -178,7 +178,7 @@
   {
     "title": "Spazzatura",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-11-15T12:50:46 -01:00",
     "latitude": 44.423391,
     "longitude": 8.929965
@@ -186,7 +186,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-01-23T07:56:30 -01:00",
     "latitude": 44.426188,
     "longitude": 8.972048
@@ -194,7 +194,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-20T10:05:45 -02:00",
     "latitude": 44.40256,
     "longitude": 8.936006
@@ -202,7 +202,7 @@
   {
     "title": "Buca",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-05-04T11:17:50 -02:00",
     "latitude": 44.393551,
     "longitude": 8.987901
@@ -210,7 +210,7 @@
   {
     "title": "Buca",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-17T10:38:23 -02:00",
     "latitude": 44.425896,
     "longitude": 8.894743
@@ -218,7 +218,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-16T07:02:54 -01:00",
     "latitude": 44.429318,
     "longitude": 8.921352
@@ -226,7 +226,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-09T11:45:00 -02:00",
     "latitude": 44.397558,
     "longitude": 8.978817
@@ -234,7 +234,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-01-23T08:58:28 -01:00",
     "latitude": 44.436414,
     "longitude": 8.89966
@@ -242,7 +242,7 @@
   {
     "title": "Buca",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-07-18T07:30:55 -02:00",
     "latitude": 44.404162,
     "longitude": 8.91946
@@ -250,7 +250,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-02-01T04:07:46 -01:00",
     "latitude": 44.41153,
     "longitude": 8.909869
@@ -258,7 +258,7 @@
   {
     "title": "Spazzatura",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-03-17T08:15:22 -01:00",
     "latitude": 44.41065,
     "longitude": 8.988881
@@ -266,7 +266,7 @@
   {
     "title": "Buca",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-11-05T04:54:03 -01:00",
     "latitude": 44.437486,
     "longitude": 8.912592
@@ -274,7 +274,7 @@
   {
     "title": "Buca",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-30T08:41:44 -02:00",
     "latitude": 44.402525,
     "longitude": 8.936427
@@ -282,7 +282,7 @@
   {
     "title": "Spazzatura",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-30T10:21:55 -02:00",
     "latitude": 44.408312,
     "longitude": 8.994987
@@ -290,7 +290,7 @@
   {
     "title": "Spazzatura",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-03-23T09:50:07 -01:00",
     "latitude": 44.41979,
     "longitude": 8.998036
@@ -298,7 +298,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-06-24T02:14:20 -02:00",
     "latitude": 44.411479,
     "longitude": 8.927481
@@ -306,7 +306,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-11-01T06:29:27 -01:00",
     "latitude": 44.391764,
     "longitude": 8.990454
@@ -314,7 +314,7 @@
   {
     "title": "Malfunzionamento",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-11-13T10:55:36 -01:00",
     "latitude": 44.434966,
     "longitude": 8.982015
@@ -322,7 +322,7 @@
   {
     "title": "Spazzatura",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-04T12:04:05 -02:00",
     "latitude": 44.431087,
     "longitude": 8.921105
@@ -330,7 +330,7 @@
   {
     "title": "Spazzatura",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-09-21T06:28:34 -02:00",
     "latitude": 44.415355,
     "longitude": 8.891993
@@ -338,7 +338,7 @@
   {
     "title": "Buca",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-03-01T01:08:33 -01:00",
     "latitude": 44.398244,
     "longitude": 8.893977
@@ -346,7 +346,7 @@
   {
     "title": "Oggetto ingombrante",
     "description": "In mezzo alla strada",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-10-11T05:32:43 -02:00",
     "latitude": 44.42542,
     "longitude": 8.983825
@@ -354,7 +354,7 @@
   {
     "title": "Problema stradale",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-06-10T09:31:50 -02:00",
     "latitude": 44.428389,
     "longitude": 8.973834
@@ -362,7 +362,7 @@
   {
     "title": "Divano abbandonato",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-14T04:21:07 -02:00",
     "latitude": 44.39352,
     "longitude": 8.88482
@@ -370,7 +370,7 @@
   {
     "title": "Problema stradale",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-07-30T11:54:39 -02:00",
     "latitude": 44.410669,
     "longitude": 8.986145
@@ -378,7 +378,7 @@
   {
     "title": "Problema stradale",
     "description": "Oggetto fastidioso",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-24T12:56:18 -02:00",
     "latitude": 44.399903,
     "longitude": 8.897493
@@ -386,7 +386,7 @@
   {
     "title": "Divano abbandonato",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-04-05T06:37:53 -02:00",
     "latitude": 44.412558,
     "longitude": 8.938329
@@ -394,7 +394,7 @@
   {
     "title": "Spazzatura",
     "description": "Occupa il parcheggio",
-    "picture": /assets/default_pic.png",
+    "picture": "/assets/default_pic.png",
     "timestamp": "2018-08-29T03:50:38 -02:00",
     "latitude": 44.417417,
     "longitude": 8.897079
