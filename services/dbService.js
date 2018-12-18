@@ -13,7 +13,7 @@ class DbService {
     init(port) {
         this.db_port = port;
         mongoose.Promise = global.Promise;
-        mongoose.connect('mongodb://localhost:' + this.db_port +'/zenaclean-test', {useNewUrlParser: true});
+        mongoose.connect('mongodb://localhost:' + this.db_port +'/zenaclean', {useNewUrlParser: true});
     }
 
     addReport(report, cb) {
@@ -34,7 +34,7 @@ class DbService {
             });
     }
 
-    getUser(email, password, cb) {
+    checkUserLogin(email, password, cb) {
         User.find({email: email}).then(users => {
                 let user = users[0];
 

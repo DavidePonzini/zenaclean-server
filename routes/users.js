@@ -15,13 +15,14 @@ let mail_reg = /^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@“]+)*)|(“.+
 router.post('/login', function(req, res) {
     let email=parse(String(req.body.email).toLowerCase());
 
-    dbService.getUser(email, req.body.password, (ok, id) => {
-            res.status(200).send({status: ok, id: id});
+    dbService.checkUserLogin(email, req.body.password, (success, id) => {
+            res.status(200).send({status: success, id: id});
     });
 });
 
 /* POST new user.*/
 router.post('/register', function(req, res) {
+    console.log('adding user', req.body);
 
     let ssn=parse(String(req.body.ssn).toLowerCase());
     let email=parse(String(req.body.email).toLowerCase());
@@ -36,7 +37,7 @@ router.post('/register', function(req, res) {
         return;
     }
 
-    if (req.body.password.length<6) {
+    if (req.body.password.length < 8) {
         res.json(error('La password è troppo breve'));
         return;
     }
@@ -49,9 +50,9 @@ router.post('/register', function(req, res) {
 
         // Inserimento in db (errore se c’è già email o cf)
         dbService.addUser(user, err => {
-            res.json(error('Utente esiste già'));
+            res.json(error('Utente già esistente'));
         }, user => {
-            res.json({status:'ok'});
+            res.json({status: 'ok'});
         });
     });
 });
@@ -61,7 +62,10 @@ function parse(string) {
 }
 
 function error(message) {
-    return {status:'error',error:message};
+    return {
+        status: 'error',
+        error: message
+    };
 }
 
 module.exports = router;

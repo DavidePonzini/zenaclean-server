@@ -5,31 +5,34 @@ const Schema = mongoose.Schema;
 const Report = new Schema({
 	title: {
 		type: String,
-		required: 'Title'
+		required: true
     },
 	timestamp:{
         type: String,
-        required: 'Timestamp'
+        required: true
     },
 	latitude:{
         type: Number,
-        required: 'Longitude'
+        required: true
     },
 	longitude:{
         type: Number,
-        required: 'Longitude'
+        required: true
     },
     address:{
-            type: String,
-            required: 'Address'
+        type: String,
+        required: true
     },
     description:{
-            type: String,
-            required: 'Description'
+        type: String,
     },
     url:{
         type: String,
-        required: 'URL picture'
+        required: true
+    },
+    user_id: {
+	    type: String,
+        required: true
     }
 }, {collection: 'reports'});
 
