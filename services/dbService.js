@@ -1,4 +1,9 @@
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const User = require('../models/userModel');
+const Report = require('../models/reportModel');
+
+
 
 class DbService {
 
@@ -7,33 +12,48 @@ class DbService {
 
     init(port) {
         this.db_port = port;
-        mongoose.connect('mongodb://localhost:' + this.db_port +'/test', (err, db) => {
-            console.log(err);
-            if(err) throw err;
-            db.close();
-        });
-
-        var db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'error connecting to db'));
-        db.once('open', () => {
-            console.log('connected to db');
-            var schema = new mongoose.Schema({name: String});
-            var report_schema = mongoose.model('Reports', schema);
-            this.Reports = report_schema;
-        });
+        mongoose.Promise = global.Promise;
+        mongoose.connect('mongodb://localhost:' + this.db_port +'/zenaclean-test', {useNewUrlParser: true});
     }
 
     addReport(report, cb) {
-        console.log("report to add: " + JSON.stringify(report));
-
-        this.Reports.create(report, cb);
+        return new Report(report).save().then(cb);
     }
+
     getReports(cb) {
-        this.Reports.find().exec(cb);
+        Report.find().then(cb);
     }
 
+    addUser(user, cb_err, cb) {
+        User.find().or([{email: user.email}, {ssn: user.ssn}])
+            .then(data => {
+                if(data[0])
+                    cb_err()
+                else
+                    new User(user).save().then(cb);
+            });
+    }
+
+    getUser(email, password, cb) {
+        User.find({email: email}).then(users => {
+                let user = users[0];
+
+                if(!user) {
+                    cb(false);
+                    return;
+                }
+
+                bcrypt.compare(password, user.password).then(ok => {
+                    if(!ok)
+                        cb(false);
+                    else
+                        cb(true, user._id);
+                });
+            });
+    }
 
 };
+
 
 
 module.exports = new DbService();

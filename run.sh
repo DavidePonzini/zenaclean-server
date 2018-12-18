@@ -12,6 +12,14 @@ server_port=8080
 ############################################
 
 
+## kill previous instances
+for i in `ps | egrep 'mongod|node' | cut -d ' ' -f 1`; do
+	kill $i
+done
+
+
+## start server + db
+
 export PORT=${server_port}
 export DB_PORT=${db_port}
 export DEBUG='express:*'
@@ -20,4 +28,4 @@ export DEBUG='express:*'
 nohup ${db_dir}/bin/mongod --dbpath ${db_home} --port ${db_port} > ~/mongo.out &
 
 # start server
-nohup node ${server_dir}/bin/www > ~/server.out &
+nohup nodemon ${server_dir}/bin/www > ~/server.out &
