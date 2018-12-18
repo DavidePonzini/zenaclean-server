@@ -41,8 +41,6 @@ router.post('/register', function(req, res) {
         return;
     }
     bcrypt.hash(req.body.password, 10, function(err, hash) {
-        console.log(hash);
-
         let user = {
             email: email,
             ssn: ssn,
