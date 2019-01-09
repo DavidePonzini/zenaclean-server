@@ -27,8 +27,7 @@ const Report = new Schema({
         type: String,
     },
     url:{
-        type: String,
-        required: true
+        type: String
     },
     user_id: {
 	    type: String,
