@@ -8,6 +8,14 @@ const bcrypt = require('bcrypt');
 const body = require('body-parser');
 router.use(body.json());
 
+function setHeader(req, res) {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Max-Age', '86400');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    return res;
+}
 
 let ssn_reg=/^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
 let mail_reg = /^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -17,13 +25,9 @@ router.post('/login', function(req, res) {
     let email=parse(String(req.body.email).toLowerCase());
 
     dbService.checkUserLogin(email, req.body.password, (success, id) => {
-	    res.header('Access-Control-Allow-Credentials', true);
-	    res.header('Access-Control-Max-Age', '86400');
-	    res.header('Access-Control-Allow-Origin', req.headers.origin);
-	    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-	    req.session.log="true";
-            res.status(200).send({status: success, id: id});
+        res=setHeader(req, res);
+        req.session.log="true";
+        res.status(200).send({status: success, id: id});
     });
 });
 
