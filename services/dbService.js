@@ -27,7 +27,9 @@ class DbService {
             {latitude: {$gte: south}},
             {longitude: {$gte: west}},
             {longitude: {$lte: east}},
-            ]).then(cb).catch(cb_err);
+            ])
+            .sort({timestamp: 'desc'})
+            .then(cb).catch(cb_err);
     }
 
     addUser(user, cb, cb_err) {
@@ -69,6 +71,44 @@ class DbService {
 
     cleanUsers(cb, cb_err) {
         User.remove({email: /[^@]@test\.com/}).then(cb).catch(cb_err);
+    }
+
+    // TODO return
+    voteReport(report_id, user_id, is_vote_positive, cb, cb_err) {
+        Report.find({_id: report_id}).then(reports => {
+            let report = reports[0];
+
+            if (!report) {
+                cb('error', 'report non esiste');
+            } else {
+                console.log(report);
+
+                if (this.checkVotesUser(report, user_id)) {
+                    cb('error', 'utente ha gia` votato');
+                } else {
+                    if (is_vote_positive) {
+                        report.votes_positive.push({user: user_id});
+                        // TODO check votes threshold
+                    } else {
+                        report.votes_negative.push({user: user_id});
+                        // TODO check votes threshold
+                    }
+
+                    report.save().then(() => cb('ok')).catch(cb_err);
+                }
+            }
+        }).catch(cb_err)
+    }
+
+    // find() return the first element found which satisfies the condition,
+    // otherwise, returns undefined
+    checkVotesUser(report, user) {
+        function hasUserAlreadyVoted(votes) {
+            return votes.find(vote => vote.user === user) !== undefined;
+        }
+
+        return hasUserAlreadyVoted(report.votes_positive) ||
+            hasUserAlreadyVoted(report.votes_negative);
     }
 }
 

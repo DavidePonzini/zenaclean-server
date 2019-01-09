@@ -23,16 +23,14 @@ const Report = new Schema({
         type: String,
         required: true
     },
-    description:{
-        type: String,
-    },
-    url:{
-        type: String
-    },
+    description: String,
+    url: String,
     user_id: {
 	    type: String,
         required: true
-    }
+    },
+    votes_positive: [{user: String}],
+    votes_negative: [{user: String}],
 }, {collection: 'reports'});
 
 module.exports = mongoose.model('Report' , Report, 'reports');

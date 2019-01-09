@@ -41,4 +41,18 @@ router.get('/cleanup', function(req, res) {
     })
 });
 
+router.get('/vote', function (req, res) {
+    console.log(req.query)
+
+    const user = req.query.user;
+    const report = req.query.report;
+    const vote = req.query.vote === '1';
+
+    dbService.voteReport(report, user, vote, (status, message) => {
+        res.json({status: status, error: message});
+    }, err => {
+        res.json({status: 'error', error: err.message});
+    });
+});
+
 module.exports = router;

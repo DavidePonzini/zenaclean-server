@@ -76,6 +76,14 @@ router.get('/cleanup', function(req, res) {
 });
 
 
+// TODO change password
+router.post('/change-password', function (req, res) {
+    console.log('change password:', req.body);
+
+    res.json({status: 'ok'});
+});
+
+
 function parse(string) {
     return sanitize(xss(string.trim()));
 }
