@@ -3,18 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const body = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var reportsRouter = require('./routes/reports');
-
-var users2=require('./routes/users2');
-var reports2 = require('./routes/reports2');
 
 var cors = require('cors');
 
 
 var app = express();
+app.use(body.json());
 app.use(cors({origin: ["http://localhost:4200"], credentials: true}));
 const session = require('express-session');
 app.use(session({
@@ -44,8 +42,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/reports', reportsRouter);
-app.use('/users2', users2);
-app.use('/reports2', reports2);
 
 
 // catch 404 and forward to error handler
