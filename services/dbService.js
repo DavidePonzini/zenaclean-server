@@ -54,7 +54,8 @@ class DbService {
             }
             const returnUser = {
                 email: user.email,
-                ssn: user.ssn
+                ssn: user.ssn,
+                id: user._id
             }
             bcrypt.compare(password, user.password).then(ok => {
                 if(!ok)
