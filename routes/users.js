@@ -23,16 +23,16 @@ function setHeader(req, res) {
 router.post('/login', function(req, res) {
     let email=parse(String(req.body.email).toLowerCase());
 
-    dbService.checkUserLogin(email, req.body.password, (status, id) => {
+    dbService.checkUserLogin(email, req.body.password, (status, user) => {
         if (status === 'ok') {
             console.log('logging in ' + email);
             res=setHeader(req, res);
             req.session.log="true";
-            res.json({status: status, id: id});
+            res.json({status: status, user});
         }
         else {
             console.log('login for user ' + email + ' failed');
-            res.json({status: status, id: id});
+            res.json({status: status});
         }
     }, err => {
         res.json(error(err))
