@@ -52,12 +52,15 @@ class DbService {
                 cb('failed');
                 return;
             }
-
+            const returnUser = {
+                email: user.email,
+                ssn: user.ssn
+            }
             bcrypt.compare(password, user.password).then(ok => {
                 if(!ok)
                     cb('failed');
                 else
-                    cb('ok', user._id);
+                    cb('ok', returnUser);
             }).catch(cb_err);
         }).catch(cb_err);
     }
