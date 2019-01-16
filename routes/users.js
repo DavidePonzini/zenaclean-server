@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dbService = require('../services/dbService');
-
+ 
 const sanitize = require('mongo-sanitize');
 const xss = require('xss');
 const bcrypt = require('bcrypt');
@@ -19,7 +19,7 @@ function setHeader(req, res) {
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
     return res;
 }
-
+ 
 router.post('/login', function(req, res) {
     let email=parse(String(req.body.email).toLowerCase());
 
@@ -48,6 +48,7 @@ router.post('/check', function(req, res) {
         res=setHeader(req, res);
         res.status(200).send({status: "ok"});
     }
+    else res.status(200).send({status: "no"});
 });
 
 router.post('/register', function(req, res) {

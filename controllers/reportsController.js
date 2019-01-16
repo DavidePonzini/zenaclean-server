@@ -5,7 +5,7 @@ class ReportController{
     constructor() { }
 
     getReports(req, res) {
-        dbService.getReports(req.query.ne_lat, req.query.sw_lat, req.query.sw_lng, req.query.ne_lng, reports => {
+        dbService.getReports(req.query.ne_lat, req.query.sw_lat, req.query.sw_lng, req.query.ne_lng, req.query.user, reports => {
             res.json(reports);
         }, err => {
             res.json({status: 'error', message: err});
@@ -45,11 +45,11 @@ class ReportController{
     }
 
     vote(req, res) {
-        console.log(req.query)
+        console.log(req.body)
 
-        const user = req.query.user;
-        const report = req.query.report;
-        const vote = req.query.vote === '1';
+        const user = req.body.user;
+        const report = req.body.report;
+        const vote = req.body.vote === '1';
 
         dbService.voteReport(report, user, vote, (status, message) => {
             // if (req.session.log)

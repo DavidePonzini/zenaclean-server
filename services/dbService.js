@@ -16,7 +16,7 @@ class DbService {
         return new Report(report).save().then(cb).catch(cb_err);
     }
 
-    getReports(north, south, west, east, cb, cb_err) {
+    getReports(north, south, west, east, user, cb, cb_err) {
         if(north === undefined || south === undefined || west === undefined || east === undefined) {
             cb_err('missing parameters');
             return;
@@ -29,7 +29,28 @@ class DbService {
             {longitude: {$lte: east}},
             ])
             .sort({timestamp: 'desc'})
-            .then(cb).catch(cb_err);
+            .then(reports => {
+        		reports = this.setReportProperties(reports, user);
+        		cb(reports);
+	    }).catch(cb_err);
+    }
+
+    setReportProperties(reports, user) {
+        let result = [];
+
+        reports.forEach(report => {
+            report = report.toObject();
+
+            report.voted_positive = this.hasUserAlreadyVoted(report.votes_positive, user);
+            report.voted_negative = this.hasUserAlreadyVoted(report.votes_negative, user);
+
+            delete report.votes_positive;
+            delete report.votes_negative;
+
+            result.push(report);
+        });
+
+        return result
     }
 
     addUser(user, cb, cb_err) {
@@ -85,7 +106,6 @@ class DbService {
             if (!report) {
                 cb('error', 'report non esiste');
             } else {
-                console.log(report);
 
                 if (this.checkVotesUser(report, user_id)) {
                     cb('error', 'utente ha gia` votato');
@@ -106,13 +126,16 @@ class DbService {
 
     // find() return the first element found which satisfies the condition,
     // otherwise, returns undefined
-    checkVotesUser(report, user) {
-        function hasUserAlreadyVoted(votes) {
-            return votes.find(vote => vote.user === user) !== undefined;
-        }
+    hasUserAlreadyVoted(votes, user) {
+        if(user === undefined)
+            return false;
 
-        return hasUserAlreadyVoted(report.votes_positive) ||
-            hasUserAlreadyVoted(report.votes_negative);
+    	return votes.find(vote => vote.user === user) !== undefined;
+    }
+    
+    checkVotesUser(report, user) {
+        return this.hasUserAlreadyVoted(report.votes_positive, user) ||
+            this.hasUserAlreadyVoted(report.votes_negative, user);
     }
 }
 

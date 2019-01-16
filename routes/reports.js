@@ -9,6 +9,6 @@ router.post('/', reportController.addReport);
 
 router.get('/cleanup', reportController.cleanup);
 
-router.get('/vote', reportController.vote);
+router.post('/vote', reportController.vote);
 
 module.exports = router;
