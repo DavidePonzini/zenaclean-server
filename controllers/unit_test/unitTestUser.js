@@ -5,6 +5,7 @@ const sinon= require('sinon');
 var Controller = require('../usersController');
 var dbService = require('../../services/dbService');
 var utilities = require('../controllerUtilities');
+var bcrypt = require('bcrypt');
 
 
 describe("UserController", function() {
@@ -25,7 +26,7 @@ describe("UserController", function() {
 
         userReq = {
             body: {
-                email: "unitTest@test.it",
+                email: "",
                 password: "",
                 ssn: "",
             },
@@ -74,6 +75,100 @@ describe("UserController", function() {
         let expected_res_status = {status: "error", error: error.message}
 
         Controller.login(userReq, res);
+
+        expect(res.json.calledOnce).to.be.true;
+        expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
+
+    });
+
+
+    it("should return an ok status when received correct sign up fields", function() {
+
+        let expected_res_status = {status: "ok"};
+
+        userReq.body.email = "unitTest@test.it"
+        userReq.body.ssn = "VMSYVD96H70M079I"
+        userReq.body.password = "validpassword"
+
+        let addUserStub=sinon.stub(dbService, 'addUser').yields();
+        let bcryptStub=sinon.stub(bcrypt, 'hash').yields(null,"passwordHash");
+
+        Controller.register(userReq, res);
+
+        expect(res.json.calledOnce).to.be.true;
+        expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
+
+    });
+
+    it("should return an error status when received a not valid email", function() {
+
+        let expected_res_status = {error: "Indirizzo email non valido", status: "error"}
+
+        userReq.body.email = "notAnEmail.it"
+        userReq.body.ssn = "VMSYVD96H70M079I"
+        userReq.body.password = "validpassword"
+
+        let addUserSpy=sinon.spy(dbService, 'addUser');
+        let bcryptStub=sinon.stub(bcrypt, 'hash').yields(null,"passwordHash");
+
+        Controller.register(userReq, res);
+
+        expect(res.json.calledOnce).to.be.true;
+        expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
+        expect(addUserSpy.notCalled).to.be.true;
+
+    });
+
+    it("should return an error status when received a not valid ssn", function() {
+
+        let expected_res_status = {error: "Codice fiscale non valido", status: "error"}
+
+        userReq.body.email = "unitTest@test.it"
+        userReq.body.ssn = "wrongSSN"
+        userReq.body.password = "validpassword"
+
+        let addUserSpy=sinon.spy(dbService, 'addUser');
+        let bcryptStub=sinon.stub(bcrypt, 'hash').yields(null,"passwordHash");
+
+        Controller.register(userReq, res);
+
+        expect(res.json.calledOnce).to.be.true;
+        expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
+        expect(addUserSpy.notCalled).to.be.true;
+
+    });
+
+    it("should return an error status when received a password too short", function() {
+
+        let expected_res_status = {error: "La password è troppo breve", status: "error"}
+
+        userReq.body.email = "unitTest@test.it"
+        userReq.body.ssn = "VMSYVD96H70M079I"
+        userReq.body.password = "short"
+
+        let addUserSpy=sinon.spy(dbService, 'addUser');
+        let bcryptStub=sinon.stub(bcrypt, 'hash').yields(null,"passwordHash");
+
+        Controller.register(userReq, res);
+
+        expect(res.json.calledOnce).to.be.true;
+        expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
+        expect(addUserSpy.notCalled).to.be.true;
+
+    });
+
+    it("should return an error status when the email or ssn are already present into db", function() {
+
+        let expected_res_status = {error: "Utente o codice fiscale già registrato", status: "error"}
+
+        userReq.body.email = "unitTest@test.it"
+        userReq.body.ssn = "VMSYVD96H70M079I"
+        userReq.body.password = "validpassword"
+
+        let addUserStub=sinon.stub(dbService, 'addUser').yieldsRight();
+        let bcryptStub=sinon.stub(bcrypt, 'hash').yields(null,"passwordHash");
+
+        Controller.register(userReq, res);
 
         expect(res.json.calledOnce).to.be.true;
         expect(res.json.firstCall.args[0]).to.deep.equal(expected_res_status);
