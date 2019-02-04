@@ -1,3 +1,4 @@
+const config =require("../config/config");
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
@@ -46,6 +47,7 @@ class DbService {
 
             delete report.votes_positive;
             delete report.votes_negative;
+            delete report.__v;
 
             result.push(report);
         });
@@ -106,36 +108,70 @@ class DbService {
             if (!report) {
                 cb('error', 'report non esiste');
             } else {
-
-                if (this.checkVotesUser(report, user_id)) {
-                    cb('error', 'utente ha gia` votato');
+                if (report.user_id === user_id) {
+                    cb('error', 'non puoi votare i tuoi report');
                 } else {
-                    if (is_vote_positive) {
-                        report.votes_positive.push({user: user_id});
-                        // TODO check votes threshold
+                    if (this.checkVotesUser(report, user_id)) {
+                        cb('error', 'utente ha gia` votato');
                     } else {
-                        report.votes_negative.push({user: user_id});
-                        // TODO check votes threshold
-                    }
+                        if (is_vote_positive) {
+                            report.votes_positive.push({user: user_id});
 
-                    report.save().then(() => cb('ok')).catch(cb_err);
+                            DbService.checkVotesThreshold(report)
+                        } else {
+                            report.votes_negative.push({user: user_id});
+                            DbService.checkVotesThreshold(report)
+                        }
+
+                        report.save().then(() => cb('ok')).catch(cb_err);
+                    }
                 }
             }
         }).catch(cb_err)
     }
 
-    // find() return the first element found which satisfies the condition,
-    // otherwise, returns undefined
     hasUserAlreadyVoted(votes, user) {
         if(user === undefined)
             return false;
 
+        // find() return the first element found which satisfies the condition,
+        // otherwise, returns undefined
     	return votes.find(vote => vote.user === user) !== undefined;
     }
     
     checkVotesUser(report, user) {
         return this.hasUserAlreadyVoted(report.votes_positive, user) ||
             this.hasUserAlreadyVoted(report.votes_negative, user);
+    }
+
+    static checkVotesThreshold(report) {
+        if (report.approved_positive || report.approved_negative) {
+            console.log('[VOTING] report already approved, skipping check');
+            return;
+        }
+
+        let vp = report.votes_positive.length;
+        let vn = report.votes_negative.length;
+
+        console.log(`[VOTING] checking report "${report.title}": (+${vp} | -${vn})`);
+
+        if (vp + vn < config.VOTES_MIN_AMOUNT) {
+            console.log('[VOTING] too few votes for approval');
+            return;
+        }
+
+        if (Math.abs(vp - vn) < config.VOTES_THRESHOLD) {
+            console.log('[VOTING] vote difference too low for approval');
+            return;
+        }
+
+        if (vp > vn) {
+            report.approved_positive = true;
+            console.log('[VOTING] report approved: positive');
+        } else {
+            report.approved_negative = true;
+            console.log('[VOTING] report approved: negative');
+        }
     }
 }
 

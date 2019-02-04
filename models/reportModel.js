@@ -31,6 +31,14 @@ const Report = new Schema({
     },
     votes_positive: [{user: String}],
     votes_negative: [{user: String}],
+    approved_positive: {
+	    type: Boolean,
+        default: false
+    },
+    approved_negative: {
+	    type: Boolean,
+        default: false
+    },
 }, {collection: 'reports'});
 
 module.exports = mongoose.model('Report' , Report, 'reports');
