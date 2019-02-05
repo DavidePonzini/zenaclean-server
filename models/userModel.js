@@ -11,10 +11,14 @@ const User = new Schema({
 		type: String,
 		required: true
 	},
-	password:{
+	password: {
 		type: String,
 		required: true
-	}
+	},
+	eth_address: {
+		type: String,
+		required: true
+	},
 }, {collection: 'users'});
 
 module.exports = mongoose.model('User' , User, 'users');

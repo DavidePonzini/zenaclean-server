@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
 var dbService = require('../services/dbService')
 var debug = require('debug')('zenaclean-server:server');

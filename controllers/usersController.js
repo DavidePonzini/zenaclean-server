@@ -1,9 +1,10 @@
-var dbService = require('../services/dbService');
-var utilities = require('./controllerUtilities');
+const dbService = require('../services/dbService');
+const ethService = require('../services/ethService');
+const utilities = require('./controllerUtilities');
 const bcrypt = require('bcrypt');
 
-let ssn_reg=/^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
-let mail_reg = /^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const ssn_reg=/^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
+const mail_reg = /^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 class UserController {
@@ -91,7 +92,16 @@ class UserController {
         res.json({status: 'ok'});
     }
 
+    getBalance(req, res) {
+        let addr = req.query.addr;
+        console.log(addr);
 
+        ethService.getBalance(addr, bal => {
+            res.json({val: bal});
+            }, err => {
+            res.json(utilities.error(err.message));
+        });
+    }
 
 }
 
