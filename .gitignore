@@ -1,3 +1,7 @@
+# Mac files
+.DS_Store
+
+
 # Logs
 logs
 *.log
@@ -82,3 +86,6 @@ typings/
 
 # angular app
 dist/
+
+# secrets
+.env
