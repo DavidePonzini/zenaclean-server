@@ -16,7 +16,7 @@ router.get('/cleanup', usersController.cleanup);
 // TODO change password
 router.post('/change-password', usersController.changePassword);
 
-router.get('/balance',usersController.getBalance);
+router.get('/balance', usersController.getBalance);
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const dbService = require('../services/dbService');
 const ethService = require('../services/ethService');
 const utilities = require('./controllerUtilities');
 const bcrypt = require('bcrypt');
+const debug = require('../util/util-debug');
 
 const ssn_reg=/^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
 const mail_reg = /^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -14,16 +15,17 @@ class UserController {
 
         let email=utilities.parse(String(req.body.email).toLowerCase());
 
-        dbService.checkUserLogin(email, req.body.password, (status, id) => {
+        dbService.checkUserLogin(email, req.body.password, (status, data) => {
             if (status === 'ok') {
-                console.log('logging in ' + email);
+                debug.log('LOGIN', 'logging in ' + email);
                 res=utilities.setHeader(req, res);
                 req.session.log="true";
-                res.json({status: status, id: id});
+                debug.log('LOGIN', data);
+                res.json({status: status, user: data});
             }
             else {
-                console.log('login for user ' + email + ' failed');
-                res.json({status: status, id: id});
+                debug.log('LOGIN', 'login for user ' + email + ' failed');
+                res.json({status: status, user: data});
             }
         }, err => {
             res.json(utilities.error(err));
@@ -31,7 +33,10 @@ class UserController {
     }
 
     logout(req, res) {
-        req.session.destroy((err) => { console.log(err);  });
+        req.session.destroy((err) => {
+            debug.log('LOGOUT', err);
+            res.json({status: 'ok'});
+        });
     }
 
     check(req, res) {
@@ -42,9 +47,9 @@ class UserController {
     }
 
     register(req, res) {
-        console.log('adding user', req.body);
+        debug.log('ADD USER', 'adding user', req.body);
 
-        let ssn=utilities.parse(String(req.body.ssn).toLowerCase());
+        let ssn=utilities.parse(String(req.body.ssn).toUpperCase());
         let email=utilities.parse(String(req.body.email).toLowerCase());
 
         if (!ssn_reg.test(ssn)) {
@@ -66,7 +71,8 @@ class UserController {
             let user = {
                 email: email,
                 ssn: ssn,
-                password: hash
+                password: hash,
+                eth_address: 1 // TODO remove this and generate proper address
             };
 
             // Inserimento in db (errore se c’è già email o cf)
@@ -87,17 +93,20 @@ class UserController {
     }
 
     changePassword(req, res) {
-        console.log('change password:', req.body);
+        debug.log('CHANGE PASSWORD', 'change password:', req.body);
 
         res.json({status: 'ok'});
     }
 
     getBalance(req, res) {
         let addr = req.query.addr;
-        console.log(addr);
+        debug.log('GET BALANCE', addr);
 
-        ethService.getBalance(addr, bal => {
-            res.json({val: bal});
+        ethService.getBalance(addr, balance => {
+            res.json({
+                value: balance,
+                status: 'ok',
+            });
             }, err => {
             res.json(utilities.error(err.message));
         });

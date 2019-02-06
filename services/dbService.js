@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const Report = require('../models/reportModel');
+const ethService = require('./ethService');
+const debug = require('../util/util-debug');
 
 class DbService {
     constructor() { }
@@ -62,8 +64,14 @@ class DbService {
             ]).then(data => {
                 if(data[0])
                     cb_err();
-                else
+                else{
+                    let eth = ethService.createUser();
+                    user.eth_address = eth.address;
+                    user.eth_private_key = eth.privateKey;
+                    console.log(user);
+                    
                     new User(user).save().then(cb).catch(cb_err);
+                }
             });
     }
 
@@ -78,7 +86,8 @@ class DbService {
             const returnUser = {
                 email: user.email,
                 ssn: user.ssn,
-                id: user._id
+                id: user._id,
+                eth_address: user.eth_address
             }
             bcrypt.compare(password, user.password).then(ok => {
                 if(!ok)
@@ -117,10 +126,10 @@ class DbService {
                         if (is_vote_positive) {
                             report.votes_positive.push({user: user_id});
 
-                            DbService.checkVotesThreshold(report)
+                            DbService.checkVotesThreshold(report, cb, cb_err);
                         } else {
                             report.votes_negative.push({user: user_id});
-                            DbService.checkVotesThreshold(report)
+                            DbService.checkVotesThreshold(report, cb, cb_err);
                         }
 
                         report.save().then(() => cb('ok')).catch(cb_err);
@@ -144,34 +153,63 @@ class DbService {
             this.hasUserAlreadyVoted(report.votes_negative, user);
     }
 
-    static checkVotesThreshold(report) {
+    checkVotesThreshold(report, cb, cb_err) {
         if (report.approved_positive || report.approved_negative) {
-            console.log('[VOTING] report already approved, skipping check');
+            debug.log('VOTING', 'report already approved, skipping check');
             return;
         }
 
         let vp = report.votes_positive.length;
         let vn = report.votes_negative.length;
 
-        console.log(`[VOTING] checking report "${report.title}": (+${vp} | -${vn})`);
+        debug.log('VOTING' , `checking report "${report.title}": (+${vp} | -${vn})`);
 
         if (vp + vn < config.VOTES_MIN_AMOUNT) {
-            console.log('[VOTING] too few votes for approval');
+            debug.log('VOTING', 'too few votes for approval');
             return;
         }
 
         if (Math.abs(vp - vn) < config.VOTES_THRESHOLD) {
-            console.log('[VOTING] vote difference too low for approval');
+            debug.log('VOTING', 'vote difference too low for approval');
             return;
         }
 
         if (vp > vn) {
             report.approved_positive = true;
-            console.log('[VOTING] report approved: positive');
+            debug.log('VOTING', 'report approved: positive');
+            this.giveTokenToReporter(report.user_id, cb, cb_err);
+            this.giveTokenToVoters(report.votes_positive, cb, cb_err);
         } else {
             report.approved_negative = true;
-            console.log('[VOTING] report approved: negative');
+            debug.log('VOTING', 'report approved: negative');
+            this.giveTokenToVoters(report.votes_negative, cb, cb_err);
         }
+    }
+
+    giveTokenToReporter(reporter_id, cb, cb_err) {
+        this.giveTokenToUser(reporter_id, config.TOKEN_AMOUNT_REPORTER, cb, cb_err);
+    }
+    
+    giveTokenToVoters(voters_ids, cb, cb_err) {
+        voters_ids.forEach(voter_id => {
+            this.giveTokenToUser(voter_id, config.TOKEN_AMOUNT_VOTER, cb, cb_err);
+        });
+    }
+
+    giveTokenToUser(user_id, amount, cb, cb_err) {
+        User.find({_id: user_id}).then(users => {
+            const user = users[0];
+
+            debug.log('REW', user);
+
+            if(!user) {
+                cb_err('failed');
+                return;
+            }
+
+            debug.log('REWARD_DB', `giving ${amount} to ${user.email} (${user.eth_address}`);
+            ethService.giveReward(user.eth_address, amount, cb, cb_err);
+        }).catch(cb_err);
     }
 }
 

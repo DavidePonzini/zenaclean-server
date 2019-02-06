@@ -1,5 +1,6 @@
-var dbService = require('../services/dbService');
-var utilities = require('./controllerUtilities');
+const dbService = require('../services/dbService');
+const utilities = require('./controllerUtilities');
+const debug = require('../util/util-debug');
 
 class ReportController{
     constructor() { }
@@ -24,11 +25,10 @@ class ReportController{
             user_id: req.body.id ? req.body.id : '1', // TODO remove temporary fix (and change it also in the reply)
         };
 
-        console.log('adding report', report);
+        debug.log('ADD REPORT', 'adding report', report);
 
 
         dbService.addReport(report, report => {
-            //console.log(report);
             res=utilities.setHeader(req, res);
             res.json({status: "ok", report_id: report.user_id, _id: report._id});
         }, err => {
@@ -50,10 +50,9 @@ class ReportController{
         const report = req.body.report;
         const vote = req.body.vote === 1;
 
-        console.log(`[VOTING] user ${user} voted report ${report} (${vote ? '+1' : '-1'})`);
+        debug.log('VOTING', `user ${user} voted report ${report} (${vote ? '+1' : '-1'})`);
 
         dbService.voteReport(report, user, vote, (status, message) => {
-            // if (req.session.log)
             res.json({status: status, error: message});
         }, err => {
             res.json({status: 'error', error: err.message});

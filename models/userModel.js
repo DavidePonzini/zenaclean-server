@@ -19,6 +19,10 @@ const User = new Schema({
 		type: String,
 		required: true
 	},
+	eth_private_key: {
+		type: String,
+		required: true
+	}
 }, {collection: 'users'});
 
 module.exports = mongoose.model('User' , User, 'users');
