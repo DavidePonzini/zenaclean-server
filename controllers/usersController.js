@@ -17,30 +17,35 @@ class UserController {
 
         dbService.checkUserLogin(email, req.body.password, (status, data) => {
             if (status === 'ok') {
-                debug.log('LOGIN', 'logging in ' + email);
+                debug.log('LOGIN', `logging in ${email}`);
                 res=utilities.setHeader(req, res);
                 req.session.log="true";
                 debug.log('LOGIN', data);
                 res.json({status: status, user: data});
             }
             else {
-                debug.log('LOGIN', 'login for user ' + email + ' failed');
+                debug.log('LOGIN', `login for user ${email} failed`);
                 res.json({status: status, user: data});
             }
         }, err => {
+            debug.log('LOGIN', err);
             res.json(utilities.error(err));
         });
     }
 
     logout(req, res) {
         req.session.destroy((err) => {
-            debug.log('LOGOUT', err);
-            res.json({status: 'ok'});
+            if(err) {
+                debug.error('LOGOUT', err.message);
+                res.json(utilities.error(err));
+            } else {
+                res.json({status: 'ok'});
+            }
         });
     }
 
     check(req, res) {
-        if (req.session.log=="true") {
+        if (req.session.log === "true") {
             res=utilities.setHeader(req, res);
             res.status(200).send({status: "ok"});
         }
@@ -71,8 +76,7 @@ class UserController {
             let user = {
                 email: email,
                 ssn: ssn,
-                password: hash,
-                eth_address: 1 // TODO remove this and generate proper address
+                password: hash
             };
 
             // Inserimento in db (errore se c’è già email o cf)
