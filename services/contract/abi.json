@@ -3,6 +3,32 @@
 		"constant": false,
 		"inputs": [
 			{
+				"name": "reporter",
+				"type": "address"
+			},
+			{
+				"name": "voters",
+				"type": "address[]"
+			},
+			{
+				"name": "value_reporter",
+				"type": "uint256"
+			},
+			{
+				"name": "value_voters",
+				"type": "uint256"
+			}
+		],
+		"name": "drop",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "target",
 				"type": "address"
 			},

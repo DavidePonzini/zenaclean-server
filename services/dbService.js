@@ -18,6 +18,17 @@ class DbService {
     addReport(report, cb, cb_err) {
         return new ReportTable(report).save().then(cb).catch(cb_err);
     }
+    addPhotoToReport(data, cb, cb_err) {
+        return ReportTable.update({ _id: data.id, user_id: data.userId }, {
+            url: data.url 
+        }, function(err, affected, resp) {
+            if (err) {
+                cb_err(err);
+            } else {
+                cb(data.id);
+            }
+        })
+    }
 
     getReports(north, south, west, east, user, cb, cb_err) {
         if(north === undefined || south === undefined || west === undefined || east === undefined) {
@@ -111,7 +122,6 @@ class DbService {
         UserTable.remove({email: /[^@]@test\.com/}).then(cb).catch(cb_err);
     }
 
-    // TODO return
     voteReport(report_id, user_id, is_vote_positive, cb, cb_err) {
         ReportTable.find({_id: report_id}).then(reports => {
             let report = reports[0];
@@ -120,11 +130,11 @@ class DbService {
                 cb('error', 'report non esiste');
             } else {
                 if (report.user_id === user_id) {
-                    debug.log('VOTING', 'user voted their own report');
+                    debug.error('VOTING', 'user voted their own report');
                     cb('error', 'non puoi votare i tuoi report');
                 } else {
                     if (this.checkVotesUser(report, user_id)) {
-                        debug.log('VOTING', 'user has already voted');
+                        debug.error('VOTING', 'user has already voted');
                         cb('error', 'utente ha gia` votato');
                     } else {
                         if (is_vote_positive) {
@@ -181,36 +191,44 @@ class DbService {
         if (vp > vn) {
             report.approved_positive = true;
             debug.log('VOTING', 'report approved: positive');
-            this.giveTokenToReporter(report.user_id);
-            this.giveTokenToVoters(report.votes_positive);
+            this.giveTokenToAll(report.user_id, Array.from(report.votes_positive.map(v => v.user)), config.TOKEN_AMOUNT.VOTER, config.TOKEN_AMOUNT.REPORTER);
         } else {
             report.approved_negative = true;
             debug.log('VOTING', 'report approved: negative');
-            this.giveTokenToVoters(report.votes_negative);
+            this.giveTokenToAll(undefined, Array.from(report.votes_negative.map(v => v.user)), 0, config.TOKEN_AMOUNT.VOTER);
         }
     }
 
-    giveTokenToReporter(reporter_id) {
-        this.giveTokenToUser(reporter_id, config.TOKEN_AMOUNT.REPORTER);
-    }
-    
-    giveTokenToVoters(voters_ids) {
-        voters_ids.forEach(voter_id => {
-            this.giveTokenToUser(voter_id.user, config.TOKEN_AMOUNT.VOTER);
+    giveTokenToAll(reporter_id, voters_ids, amount_reporter, amount_voter) {
+        this.getEthAddresses(reporter_id, voters_ids).then(res => {
+            ethService.giveReward(res.reporter, amount_reporter, res.voters, amount_voter);
         });
     }
 
-    giveTokenToUser(user_id, amount) {
-        UserTable.find({_id: user_id}).then(users => {
-            const user = users[0];
+    getEthAddresses(reporter_id, voter_ids) {
+        // reporter_id could be undefined!
+        let ids = reporter_id ? voter_ids.concat([reporter_id]) : voter_ids; // don't change voter_ids
 
-            if(!user) {
-                debug.error('REWARD', `user ${user_id} does not exist`);
+        // debug.log('all ids', ids);
+
+        return UserTable.find({
+            _id: {
+                $in: ids
+            }
+        }).then(users => {
+            if(users.length !== ids.length) {
+                debug.error('REWARD', `returned ${users.length} values for ${ids.length} user ids`);
                 return;
             }
 
-            debug.log('REWARD_DB', `giving ${amount} to ${user.email} (${user.eth_address})`);
-            ethService.giveReward(user.eth_address, amount);
+            // user._id is of type object!
+            const reporter = users.find(user => String(user._id) === reporter_id);
+            const voters = users.filter(user => String(user._id) !== reporter_id);
+
+            return {
+                reporter: reporter ? reporter.eth_address : undefined,
+                voters: voters.map(voter => voter.eth_address)   
+            }
         }).catch(err => {
             debug.error('REWARD', err.message);
         });

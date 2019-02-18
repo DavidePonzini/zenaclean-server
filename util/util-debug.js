@@ -2,7 +2,7 @@
  * if you want to prevent a whole category from being printed to log,
  * just add its name in this array
  */
-const muted_categories = ['LOGIN', 'ADD REPORT'];
+const muted_categories = [];
 
 class UtilDebug {
     log(category) {

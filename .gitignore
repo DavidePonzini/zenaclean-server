@@ -88,4 +88,7 @@ typings/
 dist/
 
 # secrets
-.env
+env.secret
+
+# images
+public/images/

@@ -17,6 +17,7 @@ server_port=8080
 #	kill $i
 #done
 
+source env.secret
 
 ## start server + db
 
