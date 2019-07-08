@@ -1,6 +1,15 @@
+const fs = require('fs');
+const path = require('path');
 const dbService = require('../services/dbService');
 const utilities = require('./controllerUtilities');
 const debug = require('../util/util-debug');
+
+const writeImageToDisk = (filename, data, cb) => {
+    let filepath = path.join(__dirname, 'public/images/' + filename)
+    fs.writeFile(filepath, data, {encoding: 'base64'}, cb);
+    return filepath;
+}
+
 
 class ReportController{
     constructor() { }
@@ -13,7 +22,23 @@ class ReportController{
         });
     }
 
+    uploadPhoto(req, res) {
+       let form = {
+		userId: req.body.userId,
+		id: req.body.id,
+                url: 'images/' + req.file.filename
+	};
+        debug.log('upload photo', req.file);
+        dbService.addPhotoToReport(form, id => {
+            res=utilities.setHeader(req, res);
+            res.json({status: "ok", _id: id, url: form.url});
+        }, err => {
+            res.json({status: 'error', error: err.message})
+        });
+    }
+
     addReport(req, res) {
+
         let report = {
             title: req.body.title,
             timestamp: req.body.timestamp,
@@ -21,7 +46,6 @@ class ReportController{
             longitude: req.body.longitude,
             address: req.body.address,
             description: req.body.description,
-            url: req.body.url,
             user_id: req.body.id ? req.body.id : '1', // TODO remove temporary fix (and change it also in the reply)
         };
 
@@ -62,3 +86,4 @@ class ReportController{
 }
 
 module.exports=new ReportController();
+

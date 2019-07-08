@@ -20,6 +20,7 @@ class UserController {
                 debug.log('LOGIN', `logging in ${email}`);
                 res=utilities.setHeader(req, res);
                 req.session.log="true";
+		req.session.user=data;
                 debug.log('LOGIN', data);
                 res.json({status: status, user: data});
             }
@@ -47,8 +48,9 @@ class UserController {
     check(req, res) {
         if (req.session.log === "true") {
             res=utilities.setHeader(req, res);
-            res.status(200).send({status: "ok"});
+            res.status(200).send({status: "ok", user: req.session.user});
         }
+        else res.status(200).send({status: "fail"});
     }
 
     register(req, res) {

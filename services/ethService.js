@@ -38,35 +38,41 @@ class ethService {
 
     createTransaction(reporter, reporter_amount, voters_addresses, voters_amount) {
         return this.web3js.eth.getTransactionCount(this.myAddress).then(count => {
-            const reporter_amount_hex = this.toHex(reporter_amount);
-            const voters_amount_hex = this.toHex(voters_amount);
+            return this.web3js.eth.getBlock("latest", (error, blockResult) => {
+                return this.web3js.eth.getGasPrice((err, gasResult) => {
+                    const gasPrice = gasResult*1.40;
+                    const reporter_amount_hex = this.toHex(reporter_amount);
+                    const voters_amount_hex = this.toHex(voters_amount);
 
-            //TO FIX: this.myAddress need to be changed
-            const reporter_address = reporter ? reporter : this.myAddress;
+                    debug.log('REWARD', gasPrice);
+                    debug.log('REWARD', blockResult.gasLimit);
+                    //TO FIX: this.myAddress need to be changed
+                    const reporter_address = reporter ? reporter : this.myAddress;
 
-            return new Tx({
-                "from": this.myAddress, 
-                "gasPrice": this.toHex(20 * 1e9), 
-                "gasLimit": this.toHex(8000029), 
-                "to": this.contractAddress,
-                "data": this.contract.methods
-                    .drop(reporter_address, voters_addresses, reporter_amount_hex, voters_amount_hex)
-                    .encodeABI(), 
-                "nonce": this.toHex(count) 
+                    var transaction = new Tx({
+                        "from": this.myAddress, 
+                        "gasPrice": this.toHex(gasPrice), 
+                        "gasLimit": this.toHex(blockResult.gasLimit), 
+                        "to": this.contractAddress,
+                        "data": this.contract.methods
+                            .drop(reporter_address, voters_addresses, reporter_amount_hex, voters_amount_hex)
+                            .encodeABI(), 
+                        "nonce": this.toHex(count) 
+                    });
+                    transaction.sign(this.privateKey);
+                    return this.web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
+                        .on('transactionHash', (transaction) => {
+                            debug.log('REWARD', `tx hash: ${ropstenURL}tx/${transaction}`);
+                        });
+                });
             });
         });
-
     }
 
     giveReward(reporter, reporter_amount, voters, voters_amount) {
         //debug.log('REWARD', `giving reward: ${reporter_amount} to ${reporter}, ${voters_amount} to ${voters}`)
         this.createTransaction(reporter, reporter_amount, voters, voters_amount).then(transaction => {
-                transaction.sign(this.privateKey);
-
-                return this.web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
-                    .on('transactionHash', (transaction) => {
-                        debug.log('REWARD', `tx hash: ${ropstenURL}tx/${transaction}`);
-                    });
+                debug.log('ETH TRANSACTION', transaction);
             }).catch(err => {
                 debug.error('ETH TRANSACTION', err);
             });

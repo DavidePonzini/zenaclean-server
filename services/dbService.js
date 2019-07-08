@@ -191,7 +191,7 @@ class DbService {
         if (vp > vn) {
             report.approved_positive = true;
             debug.log('VOTING', 'report approved: positive');
-            this.giveTokenToAll(report.user_id, Array.from(report.votes_positive.map(v => v.user)), config.TOKEN_AMOUNT.VOTER, config.TOKEN_AMOUNT.REPORTER);
+            this.giveTokenToAll(report.user_id, Array.from(report.votes_positive.map(v => v.user)), config.TOKEN_AMOUNT.REPORTER, config.TOKEN_AMOUNT.VOTER);
         } else {
             report.approved_negative = true;
             debug.log('VOTING', 'report approved: negative');
