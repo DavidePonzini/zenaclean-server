@@ -92,3 +92,11 @@ env.secret
 
 # images
 public/images/
+
+
+# secret desktop
+secret_desktop/
+
+# adoss desktop build
+dist2/
+public/images-old/

@@ -5,7 +5,7 @@
 db_dir=/home/zenaclean/mongodb
 server_dir=/home/zenaclean/zenaclean-server
 
-db_home=/home/zenaclean/mongodb/data
+db_home=/home/zenaclean/mongodb/data_zenaexplorer
 db_port=65000
 
 server_port=8080
