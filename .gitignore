@@ -98,5 +98,5 @@ public/images/
 secret_desktop/
 
 # adoss desktop build
-dist2/
+dist-old/
 public/images-old/
